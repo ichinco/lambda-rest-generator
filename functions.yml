@@ -1,0 +1,39 @@
+  create:
+    handler: {{name}}.create
+    events:
+      - http:
+          path: {{name}}
+          method: post
+          cors: true
+
+  list:
+    handler: {{name}}.list
+    events:
+      - http:
+          path: {{name}}
+          method: get
+          cors: true
+
+  get:
+    handler: {{name}}.get
+    events:
+      - http:
+          path: {{name}}/{id}
+          method: get
+          cors: true
+
+  update:
+    handler: {{name}}.update
+    events:
+      - http:
+          path: {{name}}/{id}
+          method: put
+          cors: true
+
+  delete:
+    handler: {{name}}.delete
+    events:
+      - http:
+          path: {{name}}/{id}
+          method: delete
+          cors: true
