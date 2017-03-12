@@ -52,5 +52,6 @@ exports.generateConfig = function(filename) {
 }
 
 var function_map = argv(process.argv.slice(2));
-var filename = function_map['f']
-exports.generateConfig(filename)
+var filename = function_map['f'];
+var service_name = function_map['n'];
+exports.generateConfig(filename, name);

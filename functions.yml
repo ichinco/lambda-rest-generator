@@ -1,4 +1,4 @@
-  create:
+  {{name}}-create:
     handler: {{name}}.create
     events:
       - http:
@@ -6,7 +6,7 @@
           method: post
           cors: true
 
-  list:
+  {{name}}-list:
     handler: {{name}}.list
     events:
       - http:
@@ -14,7 +14,7 @@
           method: get
           cors: true
 
-  get:
+  {{name}}-get:
     handler: {{name}}.get
     events:
       - http:
@@ -22,7 +22,7 @@
           method: get
           cors: true
 
-  update:
+  {{name}}-update:
     handler: {{name}}.update
     events:
       - http:
@@ -30,7 +30,7 @@
           method: put
           cors: true
 
-  delete:
+  {{name}}-delete:
     handler: {{name}}.delete
     events:
       - http:
