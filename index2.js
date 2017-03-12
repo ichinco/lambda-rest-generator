@@ -18,6 +18,8 @@ exports.generateConfig = function(filenames, name) {
     tableGenerator.generate(filename_split);
     handlerGenerator.generate(filename_split);
     serverlessGenerator.generate(filename_split, name);
+
+    fs.copy('generic_service.js','generated/generic_service.js');
 }
 
 var function_map = argv(process.argv.slice(2));
