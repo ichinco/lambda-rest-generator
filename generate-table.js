@@ -1,7 +1,8 @@
 var fs = require('fs-extra');
 var beautify = require('js-beautify');
 var promise = require('promise');
-var readFile = promise.denodeify(require('fs').readFile);
+var readFile = promise.denodeify(fs.readFile);
+var writeFile = promise.denodeify(fs.writeFile);
 var replaceall = require("replaceall");
 
 var generateDynamoProperty = function(property_object) {
@@ -51,7 +52,7 @@ var generateFragments = function*(filenames) {
 		var dynamo_schema = generateDynamoSchema(obj);
 		var const_def = 'module.exports.' + obj['description'] + ' = ' + dynamo_schema;
 		return beautify.js_beautify(const_def);
-	    });
+	    }).catch(console.err);
     }
 }
 
@@ -63,14 +64,6 @@ exports.generate = function(filenames) {
     }
 
     promise.all(fragments).then(function(obj){
-	    fs.writeFile("generated/tables.js", obj.join('\n'), function(err) {
-		    if(err) {
-			return console.log(err);
-		    }
-		    
-		    console.log("The file was saved!");
-		}); 
+	    writeFile("generated/tables.js", obj.join('\n')).catch(console.err).then(function() { console.log("tables written"); });
 	});
-
-
 }
