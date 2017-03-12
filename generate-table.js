@@ -50,20 +50,25 @@ var generateFragments = function*(filenames) {
     for (var filename in filenames) {
         yield readFile(filenames[filename], 'utf-8').then(JSON.parse).then(function(obj) {
 		var dynamo_schema = generateDynamoSchema(obj);
-		var const_def = 'module.exports.' + obj['description'] + ' = ' + dynamo_schema;
+		var const_def = 'module.exports.' + obj['description'] + ' = ' + dynamo_schema + ';';
 		return beautify.js_beautify(const_def);
 	    }).catch(console.err);
     }
 }
 
 exports.generate = function(filenames) {
+
+    var tables_template = readFile('templates/table.js','utf-8').catch(console.err);
     
-    var fragments = [];
+    var fragments = [tables_template];
     for (var fragment of generateFragments(filenames)) {
 	fragments.push(fragment);
     }
 
     promise.all(fragments).then(function(obj){
-	    writeFile("generated/tables.js", obj.join('\n')).catch(console.err).then(function() { console.log("tables written"); });
+	    var base_file = obj[0];
+	    var tables = obj.slice(1).join('\n\n');
+	    var output_file = replaceall('{{table_list}}', tables, base_file);
+	    writeFile("generated/tables.js", base_file).catch(console.err).then(function() { console.log("tables written"); });
 	});
 }
