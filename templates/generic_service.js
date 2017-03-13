@@ -1,8 +1,6 @@
 const stampit = require('stampit');
 const moment = require('moment');
 
-const Logger = require('../logger');
-
 const GenericService = stampit()
     .refs({ table: null })
     .init((opts) => {
@@ -16,7 +14,7 @@ const GenericService = stampit()
 		.then((resp) => this.logResults(resp))
 		.then((resp) => this.convertResults(resp.Items))
 		.catch((err) => {
-			this.log('Error running query', err);
+			console.log('Error running query', err);
 			throw err;
 		    });
 	    },
@@ -28,7 +26,7 @@ const GenericService = stampit()
 		.then((resp) => this.logResults(resp))
 		.then((resp) => this.convertResults(resp.Items))
 		.catch((err) => {
-			this.log('Error running query', err);
+			console.log('Error running query', err);
 			throw err;
 		    });
 	    },
@@ -40,7 +38,7 @@ const GenericService = stampit()
 		.then((resp) => this.logResults(resp))
 		.then((resp) => this.convertResults(resp.Items))
 		.catch((err) => {
-			this.log('Error running query', err);
+			console.log('Error running query', err);
 			throw err;
 		    });
 	    },
@@ -52,7 +50,7 @@ const GenericService = stampit()
 		.then((resp) => this.logResults(resp))
 		.then((resp) => this.convertResults(resp.Items))
 		.catch((err) => {
-			this.log('Error running query', err);
+			console.log('Error running query', err);
 			throw err;
 		    });
 	    },
@@ -64,17 +62,17 @@ const GenericService = stampit()
 		.then((resp) => this.logResults(resp))
 		.then((resp) => this.convertResults(resp.Items))
 		.catch((err) => {
-			this.log('Error running query', err);
+			console.log('Error running query', err);
 			throw err;
 		    });
 	    },
 
 	    logResults(resp) {
-		this.log('Found', resp.Count, 'items');
-		this.log('Items: ', resp.Items);
+		console.log('Found', resp.Count, 'items');
+		console.log('Items: ', resp.Items);
 
 		if (resp.ConsumedCapacity) {
-		    this.log('Query consumed: ', resp.ConsumedCapacity);
+		    console.log('Query consumed: ', resp.ConsumedCapacity);
 		}
 
 		return resp;
@@ -83,7 +81,6 @@ const GenericService = stampit()
 	    convertResults(items) {
 		return items;
 	    },
-	})
-    .compose(Logger);
+	});
 
 module.exports = GenericService;

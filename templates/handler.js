@@ -1,15 +1,14 @@
-const tablesFactory = require('tables.js');
+const tables = require('tables.js');
 const genericService = require('generic_service.js');
 const stampit = require('stampit');
 
-const tables = tablesFactory();
 const table = tables.{{name}};
 
 module.exports = stampit()
     .refs()
     .init((opts) => {
 	    opts.instance.table = table;
-	    opts.instance.service = genericService(table);
+	    opts.instance.service = genericService({"table": table});
 	})
     .methods({
 	    create(event, context, cb) {

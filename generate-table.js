@@ -11,7 +11,7 @@ var generateDynamoProperty = function(property_object) {
 	return "Joi.string()";
 	break;
     case "integer":
-	return "Joi.integer()";
+    return "Joi.number().integer()";
 	break;
     case "array":
 	var object_info = generateDynamoProperty(property_object["items"]);
@@ -58,17 +58,18 @@ var generateFragments = function*(filenames) {
 
 exports.generate = function(filenames) {
 
-    var tables_template = readFile('templates/table.js','utf-8').catch(console.err);
+    var tables_template = readFile('templates/tables.js','utf-8').catch(console.err);
     
     var fragments = [tables_template];
     for (var fragment of generateFragments(filenames)) {
 	fragments.push(fragment);
     }
 
-    promise.all(fragments).then(function(obj){
+     promise.all(fragments).then(function(obj){
 	    var base_file = obj[0];
 	    var tables = obj.slice(1).join('\n\n');
 	    var output_file = replaceall('{{table_list}}', tables, base_file);
-	    writeFile("generated/tables.js", base_file).catch(console.err).then(function() { console.log("tables written"); });
-	});
+
+	    writeFile("generated/tables.js", output_file).catch(console.err).then(function() { console.log("tables written"); });
+	}).catch(console.err);
 }

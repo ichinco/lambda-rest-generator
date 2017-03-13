@@ -9,6 +9,9 @@
   "author": "Denise Ichinco <> (www.deniseichinco.com)",
   "license": "ISC",
   "dependencies": {
-    "promise": "^7.1.1"
+    "fs-extra": "^2.0.0",
+    "promise": "^7.1.1",
+    "replaceall": "^0.1.6",
+    "serverless": "^1.8.0"
   }
 }
