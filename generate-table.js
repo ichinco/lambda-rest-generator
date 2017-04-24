@@ -4,6 +4,7 @@ var promise = require('promise');
 var readFile = promise.denodeify(fs.readFile);
 var writeFile = promise.denodeify(fs.writeFile);
 var replaceall = require("replaceall");
+var util = require("util");
 
 var generateDynamoProperty = function(property_object) {
     switch (property_object["type"]) {
@@ -46,11 +47,16 @@ var generateDynamoSchema = function(obj) {
     }
 };
 
+var generateDynogel = function(name,schema) {
+    return util.format("dynogels.define('%s', {hashKey: 'id', timestamps: true, tableName: '%s-dev', schema:%s});", name, name, schema);
+
+}
+
 var generateFragments = function*(filenames) {
     for (var filename in filenames) {
         yield readFile(filenames[filename], 'utf-8').then(JSON.parse).then(function(obj) {
 		var dynamo_schema = generateDynamoSchema(obj);
-		var const_def = 'module.exports.' + obj['description'] + ' = ' + dynamo_schema + ';';
+		var const_def = 'module.exports.' + obj['description'] + ' = ' + generateDynogel(obj['description'],dynamo_schema);
 		return beautify.js_beautify(const_def);
 	    }).catch(console.err);
     }

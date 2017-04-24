@@ -9,10 +9,9 @@ const GenericService = stampit()
     .methods({
 	    getById(id) {
 		return this.table
-		.get(id)
-		.execAsync()
+		.getAsync(id)
 		.then((resp) => this.logResults(resp))
-		.then((resp) => this.convertResults(resp.Items))
+		.then((resp) => this.convertResults(resp))
 		.catch((err) => {
 			console.log('Error running query', err);
 			throw err;
@@ -21,10 +20,9 @@ const GenericService = stampit()
 
 	    getByIds(ids) {
 		return this.table
-		.getItems(ids)
-		.execAsync()
+		.getItemsAsync(ids)
 		.then((resp) => this.logResults(resp))
-		.then((resp) => this.convertResults(resp.Items))
+		.then((resp) => this.convertResults(resp))
 		.catch((err) => {
 			console.log('Error running query', err);
 			throw err;
@@ -32,11 +30,10 @@ const GenericService = stampit()
 	    },
 
 	    createNew(obj) {
-		this.table
-		.create(obj)
-		.execAsync()
+		return this.table
+		.createAsync(obj)
 		.then((resp) => this.logResults(resp))
-		.then((resp) => this.convertResults(resp.Items))
+		.then((resp) => this.convertResults(resp))
 		.catch((err) => {
 			console.log('Error running query', err);
 			throw err;
@@ -44,11 +41,10 @@ const GenericService = stampit()
 	    },
 
 	    update(obj) {
-		this.table
-		.update(obj)
-		.execAsync()
+		return this.table
+		.updateAsync(obj)
 		.then((resp) => this.logResults(resp))
-		.then((resp) => this.convertResults(resp.Items))
+		.then((resp) => this.convertResults(resp))
 		.catch((err) => {
 			console.log('Error running query', err);
 			throw err;
@@ -56,11 +52,10 @@ const GenericService = stampit()
 	    },
 
 	    delete(id) {
-		this.table
-		.destroy(id)
-		.execAsync()
+		return this.table
+		.destroyAsync(id)
 		.then((resp) => this.logResults(resp))
-		.then((resp) => this.convertResults(resp.Items))
+		.then((resp) => this.convertResults(resp))
 		.catch((err) => {
 			console.log('Error running query', err);
 			throw err;
@@ -69,7 +64,7 @@ const GenericService = stampit()
 
 	    logResults(resp) {
 		console.log('Found', resp.Count, 'items');
-		console.log('Items: ', resp.Items);
+		console.log('Items: ', resp);
 
 		if (resp.ConsumedCapacity) {
 		    console.log('Query consumed: ', resp.ConsumedCapacity);
