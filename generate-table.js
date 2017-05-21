@@ -5,6 +5,7 @@ var readFile = promise.denodeify(fs.readFile);
 var writeFile = promise.denodeify(fs.writeFile);
 var replaceall = require("replaceall");
 var util = require("util");
+const gfm = require('get-module-file');
 
 var generateDynamoProperty = function(property_object) {
     switch (property_object["type"]) {
@@ -64,7 +65,8 @@ var generateFragments = function*(filenames) {
 
 exports.generate = function(filenames) {
 
-    var tables_template = readFile('templates/tables.js','utf-8').catch(console.err);
+    var tables_path = gfm.sync(__dirname, 'rest-serverless-generator', 'templates/tables.js');
+    var tables_template = readFile(tables_path,'utf-8').catch(console.err);
     
     var fragments = [tables_template];
     for (var fragment of generateFragments(filenames)) {

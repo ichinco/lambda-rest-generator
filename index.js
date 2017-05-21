@@ -7,6 +7,7 @@ var promise = require('promise');
 var readFile = promise.denodeify(fs.readFile);
 var replaceall = require("replaceall");
 var exec = require('child_process').exec;
+const gfm = require('get-module-file');
 
 
 var tableGenerator = require("./generate-table");
@@ -23,8 +24,11 @@ exports.generateConfig = function(filenames, name) {
     handlerGenerator.generate(filename_split);
     serverlessGenerator.generate(filename_split, name);
 
-    promise.denodeify(fs.copy)('templates/generic_service.js','generated/generic_service.js').catch(console.err).then(function() {console.log("successfully copied generic service file")});
-    promise.denodeify(fs.copy)('templates/package.json','generated/package.json').catch(console.err).then(function() {console.log("successfully copied package.json file")});
+    var generic_service_path = gfm.sync(__dirname, 'rest-serverless-generator', 'templates/generic_service.js');
+    var package_path = gfm.sync(__dirname, 'rest-serverless-generator', 'templates/package.json');
+
+    promise.denodeify(fs.copy)(generic_service_path,'generated/generic_service.js').catch(console.err).then(function() {console.log("successfully copied generic service file")});
+    promise.denodeify(fs.copy)(package_path,'generated/package.json').catch(console.err).then(function() {console.log("successfully copied package.json file")});
 
     var child = exec('cd generated; npm install',
 		 function (error, stdout, stderr) {

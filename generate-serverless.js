@@ -3,10 +3,12 @@ var promise = require('promise');
 var readFile = promise.denodeify(fs.readFile);
 var writeFile = promise.denodeify(fs.writeFile);
 var replaceall = require("replaceall");
+const gfm = require('get-module-file');
 
 var generateFragments = function*(filenames) {
 
-    var functions_file = readFile('templates/functions.yml', 'utf-8').catch(console.err);
+    var functions_path = gfm.sync(__dirname, 'rest-serverless-generator', 'templates/functions.js');
+    var functions_file = readFile(functions_path, 'utf-8');
 
     for (var filename in filenames) {
 	var config_file = readFile(filenames[filename], 'utf-8').catch(console.err).then(JSON.parse);
