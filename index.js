@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var fs = require('fs-extra');
 var beautify = require('js-beautify');
 var argv = require('minimist');

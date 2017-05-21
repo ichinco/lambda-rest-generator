@@ -8,8 +8,14 @@
   },
   "author": "Denise Ichinco <> (www.deniseichinco.com)",
   "license": "ISC",
+  "bin": {
+    "generate_rest": "./index.js"
+  },
   "dependencies": {
+    "child-process": "^1.0.2",
     "fs-extra": "^2.0.0",
+    "js-beautify": "^1.6.14",
+    "minimist": "^1.2.0",
     "promise": "^7.1.1",
     "replaceall": "^0.1.6",
     "serverless": "^1.8.0"
